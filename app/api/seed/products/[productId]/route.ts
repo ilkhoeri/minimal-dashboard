@@ -3,10 +3,10 @@ import db from "@/lib/db";
 
 export async function GET(
   req: Request,
-  { params }: { params: { productId: string } }
+  { params }: { params: Promise<{ productId: string }> }
 ) {
   try {
-    const { productId } = await params;
+    const productId = (await params).productId;
 
     if (!productId) {
       return new NextResponse("Product id is required", { status: 400 });

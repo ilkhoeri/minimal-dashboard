@@ -15,9 +15,9 @@ import type { Metadata } from "next";
 export async function generateMetadata({
   params
 }: {
-  params: { productId: string };
+  params: Promise<{ productId: string }>;
 }): Promise<Metadata> {
-  const { productId } = await params;
+  const productId = (await params).productId;
   const product = await getProductById(productId);
   const url = process.env.NEXTAUTH_URL;
   const slug = product?.id || "";
@@ -38,9 +38,9 @@ export async function generateMetadata({
 export default async function ViewProductPage({
   params
 }: {
-  params: { productId: string };
+  params: Promise<{ productId: string }>;
 }) {
-  const { productId } = await params;
+  const productId = (await params).productId;
   const product = await getProductById(productId);
 
   return (

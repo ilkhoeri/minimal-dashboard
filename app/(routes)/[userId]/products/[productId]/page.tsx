@@ -6,11 +6,11 @@ import type { Metadata, ResolvingMetadata } from "next";
 
 type Props = {
   params: Promise<{ productId: string }>;
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata(
-  { params, searchParams }: Props,
+  { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const id = (await params).productId;
@@ -35,7 +35,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function Page({ params, searchParams }: Props) {
+export default async function Page({ params }: Props) {
   const session = await currentUser();
   const id = (await params).productId;
   const sanitizedData = await getProduct(id);

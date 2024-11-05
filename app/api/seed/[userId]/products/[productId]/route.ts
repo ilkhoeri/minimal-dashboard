@@ -4,10 +4,10 @@ import db from "@/lib/db";
 
 export async function GET(
   req: Request,
-  { params }: { params: { productId: string } }
+  { params }: { params: Promise<{ productId: string }> }
 ) {
   try {
-    const { productId } = await params;
+    const productId = (await params).productId;
 
     if (!productId) {
       return new NextResponse("Product id is required", { status: 400 });
@@ -34,7 +34,7 @@ export async function GET(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { userId: string; productId: string } }
+  { params }: { params: Promise<{ userId: string; productId: string }> }
 ) {
   try {
     const { userId, productId } = await params;
@@ -89,7 +89,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { userId: string; productId: string } }
+  { params }: { params: Promise<{ userId: string; productId: string }> }
 ) {
   try {
     const { userId, productId } = await params;
