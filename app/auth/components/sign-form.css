@@ -1,0 +1,426 @@
+.card {
+  --p: 32px;
+  --h-form: auto;
+  --w-form: 380px;
+  --input-px: 0.75rem;
+  --input-py: 0.5rem;
+  --submit-h: 38px;
+  --blind-w: 64px;
+  --space-y: 0.5rem;
+  width: var(--w-form);
+  height: var(--h-form);
+  max-width: 100%;
+  border-radius: 16px;
+  background: white;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: var(--p);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+  user-select: none;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+.avatar {
+  --sz-avatar: 166px;
+  --sz-svg: calc(var(--sz-avatar) - 10px);
+  order: 0;
+  width: var(--w-avatar, var(--sz-avatar));
+  min-width: var(--w-avatar, var(--sz-avatar));
+  max-width: var(--w-avatar, var(--sz-avatar));
+  height: var(--h-avatar, var(--sz-avatar));
+  min-height: var(--h-avatar, var(--sz-avatar));
+  max-height: var(--h-avatar, var(--sz-avatar));
+  border: 1px solid #707070;
+  border-radius: 9999px;
+  overflow: hidden;
+  cursor: default;
+  z-index: 2;
+  perspective: 80px;
+  position: relative;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+.avatar::before {
+  content: "";
+  border-radius: 45%;
+  width: calc(var(--sz-svg) / 3.889);
+  height: calc(var(--sz-svg) / 5.833);
+  border: 0;
+  border-bottom: calc(var(--sz-svg) * (4 / 100)) solid #3c302a;
+  bottom: 20%;
+  position: absolute;
+  z-index: 3;
+}
+.avatar svg.monkey_face,
+.avatar svg.monkey_hands {
+  position: absolute;
+  transition:
+    transform 0.2s ease-in,
+    opacity 0.1s;
+  transform-origin: 50% 100%;
+  height: var(--sz-svg);
+  width: var(--sz-svg);
+  pointer-events: none;
+}
+.avatar svg.monkey_face {
+  z-index: 1;
+}
+.avatar svg.monkey_hands {
+  z-index: 2;
+  transform-style: preserve-3d;
+  transform: translateY(calc(var(--sz-avatar) / 1.25)) rotateX(-21deg);
+}
+
+.avatar[data-hide="true"]::before {
+  width: calc(var(--sz-svg) * (9 / 100));
+  height: 0;
+  border-radius: 50%;
+  border-bottom: calc(var(--sz-svg) * (10 / 100)) solid #3c302a;
+}
+.avatar svg.monkey_face .eye_r,
+.avatar svg.monkey_face .eye_l {
+  animation: blink 10s 1s infinite;
+}
+.title,
+.avatar,
+.avatar::before,
+.avatar svg.monkey_face,
+.avatar svg.monkey_face .eye_nose,
+.avatar svg.monkey_face .eye_r,
+.avatar svg.monkey_face .eye_l {
+  transition: all 0.35s ease;
+}
+
+.card .blind_input {
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  z-index: 4;
+  position: absolute;
+  border: none;
+  right: calc(var(--input-px) / 2);
+  padding: 4px 0;
+  width: var(--blind-w);
+  border-radius: 4px;
+  background-color: #fff;
+  color: #4d4d4d;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.card .blind_input:before {
+  content: "";
+  position: absolute;
+  left: calc((var(--input-px) / 2) * -1);
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background: #8f8f8f;
+}
+.card .blind_input:hover {
+  color: #262626;
+  background-color: #f2f2f2;
+}
+.card .option_sign {
+  order: 3;
+  display: inline-flex;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.25s ease;
+  color: #000000b3;
+  font-weight: 500;
+  font-size: 14px;
+  float: center;
+  margin-top: 1.5rem;
+}
+.card .option_sign:hover {
+  color: #000;
+}
+
+.form {
+  order: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form .title {
+  position: relative;
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-top: 0;
+  padding-bottom: 1rem;
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+}
+.form .title h2 {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  gap: 8px;
+  left: var(--l, 0);
+  transition: all 0.35s ease-in;
+  transform: translateX(calc(var(--l, 0) * -1));
+}
+.form .title span {
+  transition: all 0.35s ease-in;
+  width: var(--w, 0px);
+  overflow: hidden;
+  display: flex;
+  flex-wrap: nowrap;
+  text-wrap: nowrap;
+  flex-direction: row;
+}
+.form .title span[data-sign="github"] {
+  --w: 136px;
+}
+
+.form .main {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  transition: all 0.35s ease;
+  opacity: 1;
+  height: var(--h-main);
+}
+.form[data-form="signin"] .main {
+  --h-main: 224px;
+}
+.form[data-form="signup"] .main {
+  --h-main: 402px;
+}
+
+.form .label_input {
+  white-space: nowrap;
+  font-size: 1rem;
+  margin-top: calc(var(--space-y) / 2);
+  color: rgba(0, 0, 0, 0.9);
+  font-weight: 600;
+  display: inline;
+  text-align: left;
+  margin-right: auto;
+  position: relative;
+  z-index: 99;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.form .input {
+  resize: vertical;
+  background: white;
+  border: 1px solid #8f8f8f;
+  border-radius: 6px;
+  outline: none;
+  padding: var(--input-py) var(--input-px);
+  font-size: 18px;
+  width: 100%;
+  color: #000000b3;
+  margin: var(--space-y) 0;
+  transition: all 0.25s ease;
+}
+.form .input#password {
+  padding-right: calc(var(--blind-w) + var(--input-px) + 4px);
+}
+.form .input:focus {
+  border: 1px solid #0969da;
+  outline: 0;
+  box-shadow: 0 0 0 2px #0969da;
+}
+
+.form .frg_pss {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+}
+.form .frg_pss a {
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.25s ease;
+  color: #000000b3;
+  font-weight: 500;
+  font-size: 14px;
+  float: right;
+
+  opacity: 0.25;
+  pointer-events: none;
+}
+.form .frg_pss a:hover {
+  color: #000;
+}
+
+.form .submit {
+  height: var(--submit-h);
+  width: 100%;
+  outline: none;
+  cursor: pointer;
+  background-color: #fff;
+  background-image: linear-gradient(
+    -180deg,
+    rgba(255, 255, 255, 0.09) 0%,
+    rgba(17, 17, 17, 0.04) 100%
+  );
+  border: 1px solid rgba(22, 22, 22, 0.2);
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1rem;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  -webkit-appearance: button;
+  appearance: button;
+  margin: var(--space-y) 0 0;
+  transition: all 0.15s ease-in;
+}
+.form .submit:hover {
+  background-image: linear-gradient(
+    -180deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(17, 17, 17, 0.08) 100%
+  );
+  border: 1px solid rgba(22, 22, 22, 0.2);
+  color: #111;
+}
+.form .submit:active {
+  background-image: linear-gradient(
+    -180deg,
+    rgba(200, 200, 200, 0.14) 0%,
+    rgba(17, 17, 17, 0.1) 100%
+  );
+  scale: 0.99;
+}
+.form[data-hide="true"] ~ .avatar[data-hide="true"] svg.monkey_face .eye_r,
+.form[data-hide="true"] ~ .avatar[data-hide="true"] svg.monkey_face .eye_l {
+  ry: 0.5;
+  cy: 30;
+}
+.avatar[data-hide="true"] svg.monkey_hands {
+  transform: translate3d(0, 0, 0) rotateX(0deg);
+}
+.form:focus-within ~ .avatar[data-hide="true"] svg.monkey_face,
+.form:focus-within ~ .avatar[data-hide="true"]::before,
+.form:focus-within ~ .avatar[data-hide="true"] svg.monkey_face .eye_nose,
+.form:focus-within ~ .avatar[data-hide="true"] svg.monkey_face .eye_r,
+.form:focus-within ~ .avatar[data-hide="true"] svg.monkey_face .eye_l {
+  animation: none;
+}
+.form:focus-within ~ .avatar svg.monkey_face {
+  animation: slick 3s ease infinite 1s;
+  --center: rotateY(0deg);
+  --left: rotateY(-4deg);
+  --right: rotateY(4deg);
+}
+.form:focus-within ~ .avatar::before,
+.form:focus-within ~ .avatar svg.monkey_face .eye_nose,
+.form:focus-within ~ .avatar svg.monkey_face .eye_r,
+.form:focus-within ~ .avatar svg.monkey_face .eye_l {
+  ry: 3;
+  cy: 35;
+  animation: slick 3s ease infinite 1s;
+  --center: translateX(0);
+  --left: translateX(-0.5px);
+  --right: translateX(0.5px);
+}
+.form[data-hide="true"] .input[type="text"]#password {
+  /* text-emphasis: circle; */
+  -webkit-text-security: disc;
+}
+
+.form[data-sign="provider"] .title {
+  transform: translate(0, -75%);
+}
+.form[data-sign="provider"] .title h2 {
+  --l: 50%;
+}
+.form[data-sign="provider"] .title,
+.form[data-sign="provider"] .title h2,
+.form[data-sign="provider"] .title h2 span[data-sign="github"] {
+  transition-delay: 0.35s;
+}
+.form[data-form*="sign"][data-sign="provider"] .main {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(0px, -100%);
+  pointer-events: none;
+  --h-main: 0;
+  overflow: hidden;
+}
+.form[data-sign="provider"] ~ .avatar {
+  --w-avatar: 100%;
+  --h-avatar: 36px;
+  border-radius: 8px;
+  transform: translate(0, 200%);
+  cursor: pointer;
+  transition:
+    width,
+    height,
+    border-radius 0.2s ease,
+    transform 0.35s ease;
+}
+.form[data-sign="provider"] ~ .avatar:active {
+  scale: 0.99;
+}
+.form[data-sign="provider"] ~ .avatar::before,
+.form[data-sign="provider"] ~ .avatar svg.monkey_face {
+  content: unset;
+  transform: translate(0, 100%);
+}
+
+@keyframes blink {
+  0%,
+  2%,
+  4%,
+  26%,
+  28%,
+  71%,
+  73%,
+  100% {
+    ry: 4.5;
+    cy: 31.7;
+  }
+  1%,
+  3%,
+  27%,
+  72% {
+    ry: 0.5;
+    cy: 30;
+  }
+}
+@keyframes slick {
+  0%,
+  100% {
+    transform: var(--center);
+  }
+  25% {
+    transform: var(--left);
+  }
+  75% {
+    transform: var(--right);
+  }
+}
