@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { auth, signOut } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { PersonIcon } from "@radix-ui/react-icons";
+import { IconUser } from "@tabler/icons-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,7 +33,7 @@ export async function User() {
               className="overflow-hidden rounded-full"
             />
           ) : (
-            <PersonIcon
+            <IconUser
               width={20}
               height={20}
               className="text-muted-foreground"
@@ -77,7 +77,7 @@ export async function User() {
               className="size-full"
               action={async () => {
                 "use server";
-                await signOut();
+                await signOut({ redirectTo: "/" });
               }}
             >
               <button

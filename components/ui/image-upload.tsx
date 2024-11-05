@@ -8,7 +8,7 @@ import {
 
 import { Media } from "./media";
 import { Button } from "@/components/ui/button";
-import { PlusCircledIcon, TrashIcon } from "@radix-ui/react-icons";
+import { IconCirclePlus, IconTrash } from "@tabler/icons-react";
 
 // cloudinary upload preset - beta
 export const Cloudinary_UploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
@@ -59,7 +59,7 @@ export function ImageUpload({
                 aria-label="Delete Image"
                 title="Delete Image"
               >
-                <TrashIcon className="size-5" />
+                <IconTrash className="size-5" />
               </Button>
             </div>
             {/* <Image fill className="object-cover" alt="Image" src={url} /> */}
@@ -105,7 +105,7 @@ export function ImageUpload({
               onClick={onClick}
               className="text-app"
             >
-              <PlusCircledIcon className="h-4 w-4 mr-2" />
+              <IconCirclePlus className="h-4 w-4 mr-2" />
               Upload an Image
             </Button>
           );

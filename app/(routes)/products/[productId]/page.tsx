@@ -4,11 +4,11 @@ import { Media } from "@/components/ui/media";
 import { getProductById } from "@/lib/get-product";
 import { RatingStars } from "@/components/rating/rating";
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  MinusIcon,
-  PlusIcon
-} from "@radix-ui/react-icons";
+  IconChevronLeft,
+  IconChevronRight,
+  IconMinus,
+  IconPlus
+} from "@tabler/icons-react";
 
 import type { Metadata, ResolvingMetadata } from "next";
 
@@ -51,7 +51,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function ViewProductPage({
+export default async function Page({
   params
 }: {
   params: Promise<{ productId: string }>;
@@ -89,7 +89,7 @@ export default async function ViewProductPage({
                 type="button"
                 className="left-4 absolute z-1 flex items-center justify-center size-9 text-center opacity-75 hover:opacity-100 transition-opacity duration-150 ease-linear text-sm bg-black dark:bg-white text-white dark:text-black active:scale-95 rounded-full"
               >
-                <ChevronLeftIcon className="size-8" />
+                <IconChevronLeft className="size-8" />
                 <span className="sr-only">Previous</span>
               </button>
 
@@ -97,7 +97,7 @@ export default async function ViewProductPage({
                 type="button"
                 className="right-4 absolute z-1 flex items-center justify-center size-9 text-center opacity-75 hover:opacity-100 transition-opacity duration-150 ease-linear text-sm bg-black dark:bg-white text-white dark:text-black active:scale-95 rounded-full"
               >
-                <ChevronRightIcon className="size-8" />
+                <IconChevronRight className="size-8" />
                 <span className="sr-only">Next</span>
               </button>
             </div>
@@ -164,7 +164,7 @@ export default async function ViewProductPage({
                     type="button"
                     className="inline-block outline-none focus:outline-none align-middle transition-all duration-150 ease-in-out uppercase border border-solid font-bold bg-black dark:bg-white text-white dark:text-black active:scale-95 text-sm px-4 py-2 shadow hover:shadow-lg rounded-md"
                   >
-                    <MinusIcon className="size-4" />
+                    <IconMinus className="size-4" />
                     <span className="sr-only hidden">Minus</span>
                   </button>
 
@@ -174,7 +174,7 @@ export default async function ViewProductPage({
                     type="button"
                     className="inline-block outline-none focus:outline-none align-middle transition-all duration-150 ease-in-out uppercase border border-solid font-bold bg-black dark:bg-white text-white dark:text-black active:scale-95 text-sm px-4 py-2 shadow hover:shadow-lg rounded-md"
                   >
-                    <PlusIcon className="size-4" />
+                    <IconPlus className="size-4" />
                     <span className="sr-only hidden">Plus</span>
                   </button>
                 </div>

@@ -24,6 +24,7 @@ This is a starter template using the following stack:
 | Deployment        | [Vercel](https://vercel.com/docs/concepts/next.js/overview)                      |
 | Styling           | [Tailwind CSS](https://tailwindcss.com)                                          |
 | Components        | [Shadcn UI](https://ui.shadcn.com/)                                              |
+| Icons             | [tabler](https://tabler.io/icons)                                                |
 | Form Handling     | [React Hook Form](https://react-hook-form.com/get-started#TypeScript)            |
 | Analytics         | [Vercel Analytics](https://vercel.com/analytics)                                 |
 | Formatting        | [Prettier](https://prettier.io)                                                  |

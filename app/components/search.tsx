@@ -4,10 +4,18 @@ import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/icons";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { useSidebar } from "@/components/ui/sidebar";
+import { IconSearch } from "@tabler/icons-react";
 
-export function SearchInput() {
+export function SearchInput({
+  className,
+  isSidebar
+}: {
+  className?: string;
+  isSidebar?: boolean;
+}) {
   const router = useRouter();
+  const { toggleSidebar, open } = useSidebar();
   const [isPending, startTransition] = useTransition();
 
   function searchAction(formData: FormData) {
@@ -21,15 +29,25 @@ export function SearchInput() {
   return (
     <form
       action={searchAction}
-      className="relative flex items-center flex-1 ml-auto md:grow-0"
+      className="relative flex items-center justify-center flex-1 md:grow-0 [--sz:16px] [--space:32px] [&>input]:pl-[--space]"
     >
-      <MagnifyingGlassIcon className="absolute left-2.5 h-4 w-4 text-muted-foreground" />
       <Input
         name="q"
+        id="q-search"
         type="search"
         placeholder="Search..."
-        className="pl-8 md:w-[200px] lg:w-[336px]"
+        className={className}
+        disabled={isSidebar && !open}
       />
+      <label
+        htmlFor="q-search"
+        onClick={() => {
+          if (isSidebar && !open) toggleSidebar();
+        }}
+        className="cursor-pointer flex items-center justify-center size-[--space] absolute left-0"
+      >
+        <IconSearch className="size-[--sz] min-h-[--sz] min-w-[--sz]" />
+      </label>
       {isPending && <Spinner />}
     </form>
   );

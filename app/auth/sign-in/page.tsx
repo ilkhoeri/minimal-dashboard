@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function LoginPage() {
+export default function Page() {
   return (
     <div className="min-h-screen flex justify-center items-center">
       <Suspense>

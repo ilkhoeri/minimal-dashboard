@@ -1,6 +1,6 @@
 import * as React from "react";
 import Link, { type LinkProps } from "next/link";
-import { ChevronRightIcon, MixerHorizontalIcon } from "@radix-ui/react-icons";
+import { IconChevronRight, IconDots } from "@tabler/icons-react";
 
 import { cn } from "@/lib/utils";
 
@@ -90,7 +90,7 @@ const BreadcrumbSeparator = ({
     className={cn("[&>svg]:size-3.5", className)}
     {...props}
   >
-    {children ?? <ChevronRightIcon />}
+    {children ?? <IconChevronRight />}
   </li>
 );
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator";
@@ -105,7 +105,7 @@ const BreadcrumbEllipsis = ({
     className={cn("flex h-9 w-9 items-center justify-center", className)}
     {...props}
   >
-    <MixerHorizontalIcon className="h-4 w-4" />
+    <IconDots className="h-4 w-4" />
     <span className="sr-only">More</span>
   </span>
 );

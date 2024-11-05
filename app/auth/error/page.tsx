@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function AuthErrorPage() {
+export default function Page() {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <svg

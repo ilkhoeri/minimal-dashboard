@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
       //   permanent: true
       // },
       {
+        source: "/dashboard",
+        destination: "/",
+        permanent: false
+      },
+      {
         source: "/products",
         destination: "/",
         permanent: false

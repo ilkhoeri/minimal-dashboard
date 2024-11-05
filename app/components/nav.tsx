@@ -3,20 +3,19 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn, remakeName } from "@/lib/utils";
-import { UsersIcon } from "@/components/icons";
 import { VercelLogo } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import {
-  HomeIcon,
-  BarChartIcon,
-  ArchiveIcon,
-  ContainerIcon,
-  GearIcon,
-  TokensIcon,
-  TextAlignLeftIcon
-} from "@radix-ui/react-icons";
+  IconHome,
+  IconChartBar,
+  IconPackage,
+  IconLayoutSidebar,
+  IconSettings,
+  IconUsers,
+  IconBasket
+} from "@tabler/icons-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -117,6 +116,7 @@ export function NavBreadcrumb({
                   href={href}
                   active={active}
                   aria-disabled="true"
+                  className="data-[path=active]:pointer-events-none"
                 >
                   {displayName}
                 </BreadcrumbLink>
@@ -159,7 +159,7 @@ export function DesktopNav({
             onClick={() => setStretch(!stretch)}
             className="mr-auto -ml-1"
           >
-            <TextAlignLeftIcon className="size-6" />
+            <IconLayoutSidebar className="size-6" />
             <span className="sr-only hidden">aside-sizer</span>
           </Button>
 
@@ -191,7 +191,7 @@ export function DesktopNav({
                 href="#"
                 className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 ml-auto mr-0.5"
               >
-                <GearIcon className="size-5" />
+                <IconSettings className="size-5" />
                 <span className="sr-only">Settings</span>
               </Link>
             </TooltipTrigger>
@@ -217,7 +217,7 @@ export function MobileNav({ session }: { session?: Session | null }) {
     <Sheet>
       <SheetTrigger asChild>
         <Button size="icon" variant="outline" className="sm:hidden">
-          <ContainerIcon className="size-5" />
+          <IconLayoutSidebar className="size-5" />
           <span className="sr-only">Toggle Menu</span>
         </Button>
       </SheetTrigger>
@@ -263,12 +263,12 @@ const routeInSession = (userId: string | undefined) => [
   {
     label: "Dashboard",
     href: `/dashboard/${userId}`,
-    icon: HomeIcon
+    icon: IconHome
   },
   {
     label: "Products",
     href: `/${userId}/products`,
-    icon: ArchiveIcon
+    icon: IconPackage
   }
 ];
 
@@ -276,16 +276,16 @@ const route = [
   {
     label: "Orders",
     href: "#",
-    icon: TokensIcon
+    icon: IconBasket
   },
   {
     label: "Customers",
     href: "/customers",
-    icon: UsersIcon
+    icon: IconUsers
   },
   {
     label: "Analytics",
     href: "#",
-    icon: BarChartIcon
+    icon: IconChartBar
   }
 ];

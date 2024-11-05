@@ -3,7 +3,7 @@ import { getProducts } from "@/lib/get-product";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ProductsTable } from "../components/products-table";
 
-export default async function ProductsPage(props: {
+export default async function Page(props: {
   searchParams: Promise<{ q: string; tab: string }>;
 }) {
   const session = await currentUser();

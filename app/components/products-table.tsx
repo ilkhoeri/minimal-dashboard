@@ -3,7 +3,7 @@
 import { Product } from "./product";
 import { SelectProduct } from "@/types/client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Session } from "@/types/auth";
 import {
@@ -116,7 +116,7 @@ export function ProductsTable({
               type="submit"
               disabled={tabQuery <= 0}
             >
-              <ChevronLeftIcon className="mr-2 h-4 w-4" />
+              <IconChevronLeft className="mr-2 h-4 w-4" />
               Prev
             </Button>
 
@@ -128,7 +128,7 @@ export function ProductsTable({
               disabled={tabQuery + productsPerPage >= totalProducts}
             >
               Next
-              <ChevronRightIcon className="ml-2 h-4 w-4" />
+              <IconChevronRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </form>

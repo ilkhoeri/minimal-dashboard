@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { IconDots } from "@tabler/icons-react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { SelectProduct } from "@/types/client";
 import { cn, formatTime } from "@/lib/utils";
@@ -53,13 +53,13 @@ export function Product({
       <TableCell>
         {product.status && (
           <Badge
-            className="capitalize"
             // @ts-ignore
             variant={cn({
               constructive: variants("active"),
               default: variants("draft"),
               destructive: variants("archived")
             })}
+            className="capitalize min-w-[74px] justify-center"
           >
             {product.status}
           </Badge>
@@ -84,7 +84,7 @@ export function Product({
                 variant="ghost"
                 className="border select-none"
               >
-                <DotsHorizontalIcon className="h-4 w-4" />
+                <IconDots className="h-4 w-4" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </DropdownMenuTrigger>

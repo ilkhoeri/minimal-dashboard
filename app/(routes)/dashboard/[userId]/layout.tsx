@@ -7,21 +7,6 @@ export default async function UserLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await currentUser();
-
-  if (!session) {
-    redirect("/auth/sign-in");
-  }
-
-  const user = await db.user.findFirst({
-    where: {
-      id: session.id
-    }
-  });
-
-  if (!user) {
-    redirect("/auth/sign-in");
-  }
 
   return <>{children}</>;
 }

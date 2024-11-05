@@ -14,16 +14,14 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="h-screen overflow-hidden relative">
+    <main className="h-screen w-full overflow-hidden relative">
       <Illustrations />
       <div className="container mx-auto px-4 h-full">
         <div className="flex flex-wrap -mx-4 h-full items-center">
-          <div className="text-center px-4 relative w-full">
-            <h1 className="font-bold text-10 text-3xl tracking-875 text-indigo-500">
-              500
-            </h1>
-            <h4 className="text-3xl font-bold mb-2 mt-0">Error :(</h4>
-            <p className="text-2xl font-normal leading-normal text-blueGray-500">
+          <div className="font-mono text-center px-4 relative w-full">
+            <h1 className="font-bold text-10 text-[5rem] tracking-875">500</h1>
+            <h4 className="text-[2rem] font-bold mb-1 mt-0">Error</h4>
+            <p className="text-[1.25rem] font-normal leading-normal text-blueGray-500">
               We are sorry. This was unexpected.
             </p>
           </div>
@@ -40,7 +38,7 @@ function Illustrations() {
       height="1199"
       viewBox="0 0 1586 1199"
       width="1586"
-      className="absolute z-0 w-full h-auto grayscale"
+      className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-full h-auto grayscale"
     >
       <g fill="none" fillRule="evenodd" transform="translate(.589219 .178782)">
         <path

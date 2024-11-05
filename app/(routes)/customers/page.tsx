@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function CustomersPage() {
+export default function Page() {
   return (
     <Card>
       <CardHeader>

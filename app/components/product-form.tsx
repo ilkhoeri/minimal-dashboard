@@ -18,8 +18,7 @@ import { ImageUpload } from "@/components/ui/image-upload";
 import { formatDateToInput } from "@/lib/utils";
 import { DeleteProduct } from "./actions";
 import { Session } from "@/types/auth";
-
-import { TrashIcon } from "@radix-ui/react-icons";
+import { IconTrash } from "@tabler/icons-react";
 
 import {
   Form,
@@ -98,7 +97,7 @@ export function ProductForm({
         {data && (
           <DeleteProduct session={session} product={data}>
             <Button variant="destructive" size="sm">
-              <TrashIcon className="size-5" />
+              <IconTrash className="size-5" />
             </Button>
           </DeleteProduct>
         )}
