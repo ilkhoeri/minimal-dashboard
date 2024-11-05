@@ -2,6 +2,24 @@ import { signIn } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { SignForm } from "../components/sign-form";
 
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const url = process.env.NEXTAUTH_URL;
+  const namePage = "Sign In";
+  return {
+    title: namePage ? namePage.slice(0, 30) : "NotFound!",
+    description: namePage,
+    openGraph: {
+      title: namePage || "NotFound!",
+      description: namePage || "NotFound!",
+      url: url + "/auth/sign-in/",
+      locale: "en_US",
+      type: "website"
+    }
+  };
+}
+
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex justify-center items-center">

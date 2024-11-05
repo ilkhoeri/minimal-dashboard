@@ -1,15 +1,14 @@
 "use client";
 
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import {
   CldUploadWidget,
   type CloudinaryUploadWidgetOptions
 } from "next-cloudinary";
-import { useEffect, useState } from "react";
 
+import { Media } from "./media";
 import { Button } from "@/components/ui/button";
 import { PlusCircledIcon, TrashIcon } from "@radix-ui/react-icons";
-import { Media } from "./media";
 
 // cloudinary upload preset - beta
 export const Cloudinary_UploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
@@ -64,14 +63,23 @@ export function ImageUpload({
               </Button>
             </div>
             {/* <Image fill className="object-cover" alt="Image" src={url} /> */}
-            <Media fill controls loop muted autoPlay playsInline src={url} className="object-cover" />
+            <Media
+              fill
+              controls
+              loop
+              muted
+              autoPlay
+              playsInline
+              src={url}
+              className="object-cover"
+            />
           </div>
         ))}
       </div>
       <CldUploadWidget
         uploadPreset={Cloudinary_UploadPreset} // when using upload preset
         signatureEndpoint="/api/sign-cloudinary-params"
-        onSuccess={(result, { widget }) => {
+        onSuccess={(result) => {
           // @ts-ignore
           onChange(result?.info?.secure_url);
         }}

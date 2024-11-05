@@ -3,37 +3,32 @@
 import * as z from "zod";
 import axios from "axios";
 import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { CounterClockwiseClockIcon, TrashIcon } from "@radix-ui/react-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
-
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/ui/form";
-import { classSelectItem, classSelectItemInner } from "@/components/ui/select";
 
 import { products } from "@/schemas/client";
 import { Input } from "@/components/ui/input";
 import { SelectProduct } from "@/types/client";
 import { Button } from "@/components/ui/button";
-import { Image, Products } from "@prisma/client";
 import { Heading } from "@/components/ui/heading";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
-import { AlertModal } from "@/components/ui/alert-modal";
-import { Description } from "@/components/ui/description";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { formatDateToInput } from "@/lib/utils";
-import { DeleteProduct } from "../actions";
+import { DeleteProduct } from "./actions";
 import { Session } from "@/types/auth";
+
+import { TrashIcon } from "@radix-ui/react-icons";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form";
 
 export function ProductForm({
   session,
@@ -42,7 +37,6 @@ export function ProductForm({
   const params = useParams();
   const router = useRouter();
 
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const title = data ? data.name : "Add product";
@@ -89,7 +83,7 @@ export function ProductForm({
 
       router.refresh();
       router.push(`/${params.userId}/products`);
-    } catch (error: any) {
+    } catch (error) {
       alert(`Something went wrong. error.`);
     } finally {
       setLoading(false);
@@ -283,25 +277,3 @@ export function ProductForm({
     </>
   );
 }
-
-const ResetSelection: React.FC<{ onClick: () => void; value?: string }> = ({
-  onClick,
-  value
-}) => {
-  return (
-    <>
-      <div
-        className={`${value ? "!bg-[#ff5555]" : ""} !font-medium ${classSelectItem}`}
-        onClick={onClick}
-      >
-        <CounterClockwiseClockIcon
-          width={18}
-          height={18}
-          className={classSelectItemInner}
-        />
-        Reset
-      </div>
-      <hr className="my-2" />
-    </>
-  );
-};

@@ -1,14 +1,39 @@
-import { RatingStars } from "@/components/rating/rating";
+import { price } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Media } from "@/components/ui/media";
 import { getProductById } from "@/lib/get-product";
-import { price } from "@/lib/utils";
+import { RatingStars } from "@/components/rating/rating";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MinusIcon,
   PlusIcon
 } from "@radix-ui/react-icons";
+
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params
+}: {
+  params: { productId: string };
+}): Promise<Metadata> {
+  const { productId } = await params;
+  const product = await getProductById(productId);
+  const url = process.env.NEXTAUTH_URL;
+  const slug = product?.id || "";
+  const namePage = product?.name || "";
+  return {
+    title: namePage ? namePage.slice(0, 30) : "NotFound!",
+    description: namePage,
+    openGraph: {
+      title: namePage || "NotFound!",
+      description: namePage || "NotFound!",
+      url: url + "/products/" + slug,
+      locale: "en_US",
+      type: "website"
+    }
+  };
+}
 
 export default async function ViewProductPage({
   params

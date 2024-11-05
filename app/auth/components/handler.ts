@@ -1,13 +1,13 @@
 "use server";
 
 import * as z from "zod";
-import bcrypt from "bcryptjs";
 import db from "@/lib/db";
+import bcrypt from "bcryptjs";
 
-import { AuthError } from "next-auth";
-import { SignInSchema, SignUpSchema } from "@/schemas/auth";
-import { getUserByEmail } from "@/lib/user";
 import { signIn } from "@/lib/auth";
+import { AuthError } from "next-auth";
+import { getUserByEmail } from "@/lib/user";
+import { SignInSchema, SignUpSchema } from "@/schemas/auth";
 
 export const signup = async (values: z.infer<typeof SignUpSchema>) => {
   const validatedFields = SignUpSchema.safeParse(values);
@@ -45,7 +45,7 @@ export const signin = async (
     return { error: "Invalid fields!" };
   }
 
-  const { email, password, code } = validatedFields.data;
+  const { email, password } = validatedFields.data;
   const existingUser = await getUserByEmail(email);
 
   if (!existingUser || !existingUser.email || !existingUser.password) {

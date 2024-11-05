@@ -13,10 +13,9 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { SelectProduct } from "@/types/client";
 import { cn, formatTime } from "@/lib/utils";
-import { DeleteProduct } from "../actions";
+import { DeleteProduct } from "./actions";
 import { Session } from "@/types/auth";
 import { Media } from "@/components/ui/media";
-import { useRouter } from "next/navigation";
 
 export function Product({
   session,
@@ -24,7 +23,6 @@ export function Product({
 }: Session & {
   product: SelectProduct;
 }) {
-  const router = useRouter();
   const variants = (v: "active" | "draft" | "archived") =>
     product.status.toLowerCase() === v;
   return (
@@ -49,8 +47,7 @@ export function Product({
         className="font-medium cursor-pointer"
         // onClick={() => router.push()}
       >
-        <Link href={`/products/${product.id}`}>
-        {product.name}</Link>
+        <Link href={`/products/${product.id}`}>{product.name}</Link>
       </TableCell>
 
       <TableCell>

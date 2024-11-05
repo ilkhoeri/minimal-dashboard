@@ -3,25 +3,6 @@ import { SelectProduct } from "@/types/client";
 import { price, formatTime } from "@/lib/utils";
 import { Image, Products } from "@prisma/client";
 
-export async function getNameProductById(): Promise<
-  { id: string; name: string }[] | null
-> {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/seed/products`, {
-    cache: "no-store"
-  });
-  return await res.json();
-}
-
-export async function getProductById(
-  productId: string
-): Promise<(Products & { images?: Image[] }) | null> {
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/seed/products/${productId}`,
-    { cache: "no-store" }
-  );
-  return await res.json();
-}
-
 export async function getProducts(
   search: string,
   tab: number,
@@ -56,8 +37,45 @@ export async function getProducts(
     }
   });
 
-  let tabValue =
+  const tabValue =
     products.length >= productsPerPage ? tab + productsPerPage : null;
 
   return { products, tabValue, totalProducts };
+}
+
+export async function getProduct(productId: string) {
+  const product = await db.products.findUnique({
+    where: {
+      id: productId
+    },
+    include: {
+      images: true
+    }
+  });
+  return {
+    ...product!,
+    price: String(product?.price),
+    stock: String(product?.stock),
+    availableAt: String(product?.availableAt),
+    createdAt: String(product?.availableAt)
+  };
+}
+
+export async function getProductById(
+  productId: string
+): Promise<(Products & { images?: Image[] }) | null> {
+  const res = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/seed/products/${productId}`,
+    { cache: "no-store" }
+  );
+  return await res.json();
+}
+
+export async function getNameProductById(): Promise<
+  { id: string; name: string }[] | null
+> {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/seed/products`, {
+    cache: "no-store"
+  });
+  return await res.json();
 }

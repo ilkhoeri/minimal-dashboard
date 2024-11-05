@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
 import Link, { type LinkProps } from "next/link";
 import { ChevronRightIcon, MixerHorizontalIcon } from "@radix-ui/react-icons";
 
@@ -55,7 +54,8 @@ const BreadcrumbLink = React.forwardRef<
       scroll={scroll}
       data-path={active ? "active" : "inactive"}
       className={cn(
-        "leading-tight transition-colors text-muted-foreground rounded-md max-w-max inline-flex truncate border-0 max-md:active:bg-primitive/35 max-md:active:border-primitive-emphasis hover:text-foreground md:hover:bg-primitive/35 md:hover:border-primitive-emphasis data-[path=active]:font-medium",
+        !unstyled &&
+          "leading-tight transition-colors text-muted-foreground rounded-md max-w-max inline-flex truncate border-0 max-md:active:bg-primitive/35 max-md:active:border-primitive-emphasis hover:text-foreground md:hover:bg-primitive/35 md:hover:border-primitive-emphasis data-[path=active]:font-medium",
         className
       )}
       {...props}

@@ -1,10 +1,27 @@
 import Link from "next/link";
+import { currentUser } from "@/lib/account";
 import { getProducts } from "@/lib/get-product";
 import { Button } from "@/components/ui/button";
-import { ProductsTable } from "../../ui/products-table";
 import { FileIcon, PlusCircledIcon } from "@radix-ui/react-icons";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { currentUser } from "@/lib/account";
+import { ProductsTable } from "../../../components/products-table";
+
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const url = process.env.NEXTAUTH_URL;
+  const namePage = "Dashboard";
+  return {
+    title: namePage ? namePage.slice(0, 30) : "NotFound!",
+    description: namePage,
+    openGraph: {
+      title: namePage || "NotFound!",
+      description: namePage || "NotFound!",
+      url: url + "/dahsboard/",
+      locale: "en_US",
+      type: "website"
+    }
+  };
+}
 
 export interface UserIdParams {
   params: { userId: string };

@@ -1,5 +1,3 @@
-import { User } from "@prisma/client";
-
 export type ElaboratedUser = {
   id: string;
   name: string;

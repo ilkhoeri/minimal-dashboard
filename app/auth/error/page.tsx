@@ -1,3 +1,21 @@
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const url = process.env.NEXTAUTH_URL;
+  const namePage = "Auth Error";
+  return {
+    title: namePage ? namePage.slice(0, 30) : "NotFound!",
+    description: namePage,
+    openGraph: {
+      title: namePage || "NotFound!",
+      description: namePage || "NotFound!",
+      url: url + "/auth/error/",
+      locale: "en_US",
+      type: "website"
+    }
+  };
+}
+
 export default function AuthErrorPage() {
   return (
     <div className="w-full h-screen flex justify-center items-center">

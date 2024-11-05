@@ -3,8 +3,7 @@
 import { useEffect } from "react";
 
 export default function Error({
-  error,
-  reset
+  error
 }: {
   error: Error & { digest?: string };
   reset: () => void;
@@ -20,7 +19,7 @@ export default function Error({
       <div className="container mx-auto px-4 h-full">
         <div className="flex flex-wrap -mx-4 h-full items-center">
           <div className="text-center px-4 relative w-full">
-            <h1 className="font-bold text-10 sm:text-12 tracking-875 text-indigo-500">
+            <h1 className="font-bold text-10 text-3xl tracking-875 text-indigo-500">
               500
             </h1>
             <h4 className="text-3xl font-bold mb-2 mt-0">Error :(</h4>

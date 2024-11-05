@@ -1,10 +1,10 @@
 import Link from "next/link";
+import { currentUser } from "@/lib/account";
 import { Button } from "@/components/ui/button";
-import { ProductsTable } from "../../ui/products-table";
+import { getProducts } from "@/lib/get-product";
 import { FileIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getProducts } from "@/lib/get-product";
-import { currentUser } from "@/lib/account";
+import { ProductsTable } from "../../../components/products-table";
 
 export interface UserIdParams {
   params: { userId: string };

@@ -1,12 +1,13 @@
 "use client";
 
-import { SelectProduct } from "@/types/client";
-import { Slot } from "@radix-ui/react-slot";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import type { Session } from "@/types/auth";
+import { Slot } from "@radix-ui/react-slot";
+import { useRouter } from "next/navigation";
 import { AlertModal } from "@/components/ui/alert-modal";
+
+import type { SelectProduct } from "@/types/client";
+import type { Session } from "@/types/auth";
 
 export function DeleteProduct({
   session,
@@ -46,7 +47,7 @@ export function DeleteProduct({
       await axios.delete(`/api/seed/${session.id}/products/${product.id}`);
       router.refresh();
       router.push(`/${session.id}/products`);
-    } catch (error: any) {
+    } catch (error) {
       console.log("Uh oh!. error:", error);
       alert("Something went wrong.");
     } finally {

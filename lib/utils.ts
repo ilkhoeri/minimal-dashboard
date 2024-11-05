@@ -26,3 +26,28 @@ export const price = new Intl.NumberFormat("id-ID", {
   style: "currency",
   currency: "IDR"
 });
+
+export function capitalizeString(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+export function camelToKebab(n: string): string {
+  if (n === undefined) {
+    return "";
+  }
+  return n.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+}
+
+export function capitalizeWords(str: string | undefined): string {
+  const string = str ?? "---";
+  const words = string.split("-");
+  const capitalizedWords = words.map((word) => capitalizeString(word));
+  return capitalizedWords.join(" ");
+}
+
+export function remakeName(str: string) {
+  str = camelToKebab(str);
+  str = capitalizeWords(str);
+  str = str.replace(/-/g, " ");
+  return str;
+}

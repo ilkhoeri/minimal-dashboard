@@ -3,11 +3,9 @@ import { redirect } from "next/navigation";
 import { currentUser } from "@/lib/account";
 
 export default async function UserLayout({
-  children,
-  params
+  children
 }: Readonly<{
   children: React.ReactNode;
-  params: { userId: string };
 }>) {
   const session = await currentUser();
 

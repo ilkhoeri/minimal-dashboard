@@ -2,17 +2,28 @@
 import * as React from "react";
 
 type RatingStarsProps = {
-  totalStars?: number; // Jumlah total bintang
-  rating?: number; // Rating awal
-  onRatingChange?: (rating: number) => void; // Callback untuk menerima rating dari pengguna
-  interactive?: boolean; // Jika `true`, bintang bisa di-klik untuk memberikan rating
+  /**
+   * Total number of stars
+   */
+  totalStars?: number;
+  /**
+   * Initial rating
+   */
+  rating?: number;
+  /**
+   * Callback to receive ratings from users
+   */
+  onRatingChange?: (rating: number) => void;
+  /**
+   * If `true`, the star can be clicked to give a rating.
+   */
+  interactive?: boolean;
 };
 
 export function RatingStars({
   totalStars = 5,
   rating = 0,
-  onRatingChange,
-  interactive
+  onRatingChange
 }: RatingStarsProps) {
   const [isRating, setIsRating] = React.useState(rating);
 

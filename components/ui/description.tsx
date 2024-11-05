@@ -14,14 +14,13 @@ interface DescriptionProps {
   children?: React.ReactNode;
 }
 
-let descRef: React.ForwardRefExoticComponent<
+type descRef = React.ForwardRefExoticComponent<
   DescriptionProps & React.RefAttributes<HTMLParagraphElement>
 >;
 
 export const Description = React.forwardRef<
-  React.ElementRef<typeof descRef>,
-  React.ComponentPropsWithoutRef<typeof descRef> &
-    VariantProps<typeof descVariants>
+  React.ElementRef<descRef>,
+  React.ComponentPropsWithoutRef<descRef> & VariantProps<typeof descVariants>
 >(({ className, children, desc, ...props }, ref) => (
   <p ref={ref} className={twMerge(descVariants(), className)} {...props}>
     {children || desc}

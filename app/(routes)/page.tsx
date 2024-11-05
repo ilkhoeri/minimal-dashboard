@@ -1,10 +1,7 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ProductsTable } from "./ui/products-table";
-import { FileIcon, PlusCircledIcon } from "@radix-ui/react-icons";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getProducts } from "@/lib/get-product";
 import { currentUser } from "@/lib/account";
+import { getProducts } from "@/lib/get-product";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { ProductsTable } from "../components/products-table";
 
 export default async function ProductsPage(props: {
   searchParams: Promise<{ q: string; tab: string }>;
@@ -31,6 +28,3 @@ export default async function ProductsPage(props: {
     </Tabs>
   );
 }
-
-const classLink =
-  "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 h-8 gap-1";

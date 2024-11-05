@@ -1,5 +1,11 @@
 "use client";
 
+import { Product } from "./product";
+import { SelectProduct } from "@/types/client";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
+import { Session } from "@/types/auth";
 import {
   TableHead,
   TableRow,
@@ -15,20 +21,13 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
-import { Product } from "./product";
-import { SelectProduct } from "@/types/client";
-import { useRouter, useSearchParams } from "next/navigation";
-import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
-import { Session } from "@/types/auth";
 
 export function ProductsTable({
   session,
   products,
   tabValue,
   totalProducts,
-  productsPerPage = 5,
-  query = "tab"
+  productsPerPage = 5
 }: Session & {
   products: SelectProduct[];
   tabValue: number | null;
@@ -37,25 +36,6 @@ export function ProductsTable({
   query?: string;
 }) {
   const router = useRouter();
-  // const searchQuery = useSearchParams();
-  // const hasQuery = searchQuery.has(query);
-  // const getQuery = searchQuery.get(query);
-  // const getAllQuery = searchQuery.getAll(query);
-  // const activeQuery = getAllQuery.includes(String(slug));
-  // const isQuery = getQuery === `${slug}`;
-
-  // function prevPage() {
-  //   if (Number(getQuery) < totalProducts) {
-  //     router.back();
-  //   }
-  // }
-
-  // function nextPage() {
-  //   if (tabValue && Number(tabValue) + productsPerPage) {
-  //     router.push(`?${query}=${tabValue}`, { scroll: false });
-  //   }
-  // }
-
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") || "";
   const tabQuery = parseInt(searchParams.get("tab") || "0", 10);
@@ -100,9 +80,7 @@ export function ProductsTable({
               <TableHead>Name</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="hidden md:table-cell">Price</TableHead>
-              <TableHead className="hidden md:table-cell">
-                Stock
-              </TableHead>
+              <TableHead className="hidden md:table-cell">Stock</TableHead>
               <TableHead className="hidden md:table-cell">Created at</TableHead>
               <TableHead>
                 <span className="sr-only">Actions</span>
@@ -136,7 +114,6 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="submit"
-              // disabled={tabValue === 0 || tabValue === productsPerPage}
               disabled={tabQuery <= 0}
             >
               <ChevronLeftIcon className="mr-2 h-4 w-4" />
@@ -148,7 +125,6 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="submit"
-              // disabled={!tabValue && Number(tabValue) + productsPerPage < totalProducts}
               disabled={tabQuery + productsPerPage >= totalProducts}
             >
               Next

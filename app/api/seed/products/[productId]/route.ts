@@ -16,6 +16,7 @@ export async function GET(
       where: { id: productId },
       include: { images: true }
     });
+    /** // if you need data sanitization
     const sanitizedData = {
       ...product!,
       price: String(product?.price),
@@ -23,6 +24,7 @@ export async function GET(
       availableAt: String(product?.availableAt),
       createdAt: String(product?.availableAt)
     };
+     */
 
     return NextResponse.json(product);
   } catch (error) {

@@ -6,6 +6,23 @@ import {
   CardTitle
 } from "@/components/ui/card";
 
+import type { Metadata } from "next";
+export async function generateMetadata(): Promise<Metadata> {
+  const url = process.env.NEXTAUTH_URL;
+  const namePage = "Customers";
+  return {
+    title: namePage ? namePage.slice(0, 30) : "NotFound!",
+    description: namePage,
+    openGraph: {
+      title: namePage || "NotFound!",
+      description: namePage || "NotFound!",
+      url: url + "/customers/",
+      locale: "en_US",
+      type: "website"
+    }
+  };
+}
+
 export default function CustomersPage() {
   return (
     <Card>

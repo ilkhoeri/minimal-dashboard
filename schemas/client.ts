@@ -7,9 +7,5 @@ export const products = z.object({
   status: z.optional(z.string()),
   price: z.coerce.number().min(1),
   stock: z.optional(z.coerce.number()),
-  // availableAt: z.date()
   availableAt: z.optional(z.string())
-
-  // isFeatured: z.boolean().default(false).optional(),
-  // isArchived: z.boolean().default(false).optional()
 });

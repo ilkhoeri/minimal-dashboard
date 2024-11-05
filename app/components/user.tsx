@@ -1,6 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { auth, signOut } from "@/lib/auth";
+import Link from "next/link";
 import Image from "next/image";
+import { auth, signOut } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
+import { PersonIcon } from "@radix-ui/react-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,12 +11,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
-import { PersonIcon } from "@radix-ui/react-icons";
 
 export async function User() {
-  let session = await auth();
-  let user = session?.user;
+  const session = await auth();
+  const user = session?.user;
 
   return (
     <DropdownMenu>

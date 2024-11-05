@@ -1,16 +1,11 @@
 "use client";
 import * as React from "react";
 import * as z from "zod";
-import bcrypt from "bcryptjs";
-import db from "@/lib/db";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SignInSchema, SignUpSchema } from "@/schemas/auth";
-import { getUserByEmail } from "@/lib/user";
-import { signIn } from "@/lib/auth";
-import { AuthError } from "next-auth";
 import { signin, signup } from "./handler";
 
 export function useSignUp() {
@@ -61,7 +56,7 @@ export function useSignIn() {
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
       ? "Email already in use with different provider!"
-      : "";
+      : "LOGIN SUCCESS!";
 
   const [disabled, setDisabled] = React.useState<boolean>(false);
   const [transition, setTransition] = React.useTransition();
@@ -87,7 +82,7 @@ export function useSignIn() {
             setDisabled(false);
           }
         })
-        .catch(() => alert("LOGIN SUCCESS!"));
+        .catch(() => alert(urlError));
     });
   };
 

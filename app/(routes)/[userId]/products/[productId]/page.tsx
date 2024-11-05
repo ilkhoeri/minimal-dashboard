@@ -1,37 +1,50 @@
-import db from "@/lib/db";
-import axios from "axios";
-import { ProductForm } from "../../../ui/product-form";
-import { formatDateToInput } from "@/lib/utils";
 import { currentUser } from "@/lib/account";
+import { ProductForm } from "../../../../components/product-form";
+import { getProduct, getProductById } from "@/lib/get-product";
 
-export default async function AddProductPage({
-  params
-}: {
-  params: { productId: string };
-}) {
-  const { productId } = await params;
-  const session = await currentUser();
-  const product = await db.products.findUnique({
-    where: {
-      id: productId
-    },
-    include: {
-      images: true
+import type { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+  params: Promise<{ productId: string }>;
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const id = (await params).productId;
+  const product = await getProductById(id);
+  const previousImages = (await parent).openGraph?.images || [];
+
+  const url = process.env.NEXTAUTH_URL;
+  const slug = product?.id || "";
+  const namePage = product?.name || "NotFound!";
+
+  return {
+    title: product?.name,
+    description: namePage,
+    openGraph: {
+      images: [product?.images?.[0].url || "", ...previousImages],
+      title: namePage,
+      description: namePage,
+      url: url + "/products/" + slug,
+      locale: "en_US",
+      type: "website"
     }
-  });
-  const sanitizedData = {
-    ...product!,
-    price: String(product?.price),
-    stock: String(product?.stock),
-    availableAt: String(product?.availableAt),
-    createdAt: String(product?.availableAt)
   };
+}
+
+export default async function Page({ params, searchParams }: Props) {
+  const session = await currentUser();
+  const id = (await params).productId;
+  const sanitizedData = await getProduct(id);
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
       <ProductForm
         session={session}
-        data={productId === "add" ? null : sanitizedData}
+        data={id === "add" ? null : sanitizedData}
       />
     </div>
   );

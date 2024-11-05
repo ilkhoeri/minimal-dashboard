@@ -1,11 +1,10 @@
-import Providers from "./providers";
-import { Analytics } from "@vercel/analytics/react";
-import { User } from "./user";
-import { SearchInput } from "./search";
+import Providers from "../components/providers";
 import { auth } from "@/lib/auth";
-import { NavBreadcrumb } from "./nav-breadcrumb";
+import { User } from "../components/user";
+import { SearchInput } from "../components/search";
+import { Analytics } from "@vercel/analytics/react";
 import { getNameProductById } from "@/lib/get-product";
-import { DesktopNav, MobileNav } from "./nav";
+import { NavBreadcrumb, DesktopNav, MobileNav } from "../components/nav";
 
 export default async function DashboardLayout({
   children

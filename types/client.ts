@@ -11,5 +11,4 @@ export type SelectProduct = {
   availableAt: string;
   createdAt: string;
   images: Image[];
-  // imageUrl: string;
 };

@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 import React from "react";
 import { useSignIn, useSignUp } from "./action";
@@ -47,6 +46,7 @@ export function SignForm({
 
   return (
     <div className="card">
+      {/* @ts-ignore */}
       <Form {...(signup ? signupForm : signinForm)}>
         <form
           className="form"
@@ -88,6 +88,7 @@ export function SignForm({
               Email
             </label>
             <FormField
+              // @ts-ignore
               control={control}
               name="email"
               render={({ field }) => (
@@ -112,6 +113,7 @@ export function SignForm({
             </div>
             <div className="w-full relative flex flex-row items-center">
               <FormField
+                // @ts-ignore
                 control={control}
                 name="password"
                 render={({ field }) => (

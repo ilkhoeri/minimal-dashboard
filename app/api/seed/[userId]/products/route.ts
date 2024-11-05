@@ -62,7 +62,6 @@ export async function GET(
   try {
     const session = await currentUser();
     const { userId } = await params;
-    const { searchParams } = new URL(req.url);
 
     if (!userId) {
       return new NextResponse("User Id is required", { status: 403 });
@@ -73,7 +72,6 @@ export async function GET(
         userId
       },
       select: {
-        // _count: true,
         name: true,
         description: true,
         images: true,
