@@ -10,24 +10,40 @@ import {
   PlusIcon
 } from "@radix-ui/react-icons";
 
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 
-export async function generateMetadata({
-  params
-}: {
+type Props = {
   params: Promise<{ productId: string }>;
-}): Promise<Metadata> {
-  const productId = (await params).productId;
-  const product = await getProductById(productId);
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const id = (await params).productId;
+  const product = await getProductById(id);
+  const previousImages = (await parent).openGraph?.images || [];
+
   const url = process.env.NEXTAUTH_URL;
   const slug = product?.id || "";
-  const namePage = product?.name || "";
+  const namePage = product?.name || "NotFound!";
+
   return {
-    title: namePage ? namePage.slice(0, 30) : "NotFound!",
+    title: product?.name,
     description: namePage,
     openGraph: {
-      title: namePage || "NotFound!",
-      description: namePage || "NotFound!",
+      title: namePage,
+      siteName: namePage,
+      description: namePage,
+      images: [
+        {
+          url: product?.images?.[0].url || "",
+          width: 800,
+          height: 800
+        },
+        ...previousImages
+      ],
       url: url + "/products/" + slug,
       locale: "en_US",
       type: "website"

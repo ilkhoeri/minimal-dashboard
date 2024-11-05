@@ -25,9 +25,17 @@ export async function generateMetadata(
     title: product?.name,
     description: namePage,
     openGraph: {
-      images: [product?.images?.[0].url || "", ...previousImages],
       title: namePage,
+      siteName: namePage,
       description: namePage,
+      images: [
+        {
+          url: product?.images?.[0].url || "",
+          width: 800,
+          height: 800
+        },
+        ...previousImages
+      ],
       url: url + "/products/" + slug,
       locale: "en_US",
       type: "website"
