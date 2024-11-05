@@ -2,8 +2,12 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import db from "@/lib/db";
 
-export async function PATCH(req: Request, { params }: { params: { userId: string } }) {
+export async function PATCH(
+  req: Request,
+  { params }: { params: Promise<{ userId: string }> }
+) {
   try {
+    const userId = (await params).userId;
     const session = await auth();
     const body = await req.json();
 
@@ -13,17 +17,17 @@ export async function PATCH(req: Request, { params }: { params: { userId: string
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    if (!params.userId) {
+    if (!userId) {
       return new NextResponse("User id is required", { status: 400 });
     }
 
     const avatar = await db.user.updateMany({
       where: {
-        id: params.userId,
+        id: userId
       },
       data: {
-        image,
-      },
+        image
+      }
     });
 
     return NextResponse.json(avatar);
@@ -33,8 +37,12 @@ export async function PATCH(req: Request, { params }: { params: { userId: string
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { userId: string } }) {
+export async function DELETE(
+  req: Request,
+  { params }: { params: Promise<{ userId: string }> }
+) {
   try {
+    const userId = (await params).userId
     const session = await auth();
     const body = await req.json();
 
@@ -44,15 +52,15 @@ export async function DELETE(req: Request, { params }: { params: { userId: strin
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    if (!params.userId) {
+    if (!userId) {
       return new NextResponse("User id is required", { status: 400 });
     }
 
     const avatar = await db.user.deleteMany({
       where: {
-        id: params.userId,
-        image,
-      },
+        id: userId,
+        image
+      }
     });
 
     return NextResponse.json(avatar);

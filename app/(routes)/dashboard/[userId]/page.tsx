@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export interface UserIdParams {
-  params: { userId: string };
+  params: Promise<{ userId: string }>;
 }
 
 export default async function ProductsPage(
@@ -32,7 +32,7 @@ export default async function ProductsPage(
     searchParams: Promise<{ q: string; tab: string }>;
   }
 ) {
-  const { userId } = await props.params;
+  const userId = (await props.params).userId;
   const session = await currentUser();
   const searchParams = await props.searchParams;
   const search = searchParams.q ?? "";

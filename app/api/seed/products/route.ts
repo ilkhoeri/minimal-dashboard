@@ -4,11 +4,11 @@ import db from "@/lib/db";
 
 export async function POST(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const userId = (await params).userId;
     const session = await currentUser();
-    const { userId } = await params;
 
     const { name, description, images, status, price, stock, availableAt } =
       await req.json();
