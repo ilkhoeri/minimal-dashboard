@@ -6,7 +6,7 @@ import { Image, Products } from "@prisma/client";
 export async function getNameProductById(): Promise<
   { id: string; name: string }[] | null
 > {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/seed/products`, {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/seed/products`, {
     cache: "no-store"
   });
   return await res.json();
@@ -16,7 +16,7 @@ export async function getProductById(
   productId: string
 ): Promise<(Products & { images?: Image[] }) | null> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/seed/products/${productId}`,
+    `${process.env.NEXTAUTH_URL}/api/seed/products/${productId}`,
     { cache: "no-store" }
   );
   return await res.json();
