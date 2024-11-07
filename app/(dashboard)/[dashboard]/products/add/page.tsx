@@ -2,16 +2,13 @@ import { redirect } from "next/navigation";
 import { currentUser } from "@/lib/account";
 import { ProductForm } from "../../../../components/product-form";
 
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 
 type Params = {
   params: Promise<{ dashboard: string }>;
 };
 
-export async function generateMetadata(
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const previousImages = (await parent).openGraph?.images || [];
+export async function generateMetadata(): Promise<Metadata> {
   const url = process.env.NEXTAUTH_URL;
   const namePage = "Add new product";
 
@@ -22,7 +19,6 @@ export async function generateMetadata(
       title: namePage,
       siteName: namePage,
       description: namePage,
-      images: [...previousImages],
       url: url + "/products/add",
       locale: "en_US",
       type: "website"
