@@ -126,9 +126,14 @@ export function SignForm({
                 )}
               />
 
-              <div className="blind_input" onClick={() => setHidePsw(!hidePsw)}>
+              <button
+                type="button"
+                className="blind_input"
+                disabled={disabled}
+                onClick={() => setHidePsw(!hidePsw)}
+              >
                 {hidePsw ? "Show" : "Hide"}
-              </div>
+              </button>
             </div>
 
             {signup && (
