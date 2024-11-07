@@ -1,7 +1,8 @@
 import { price } from "@/lib/utils";
+import { notFound } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Media } from "@/components/ui/media";
-import { getProductById } from "@/lib/get-product";
+import { getProduct } from "@/lib/get-product";
 import { RatingStars } from "@/components/rating/rating";
 import {
   IconChevronLeft,
@@ -14,7 +15,6 @@ import type { Metadata, ResolvingMetadata } from "next";
 
 type Props = {
   params: Promise<{ productId: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata(
@@ -22,7 +22,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const id = (await params).productId;
-  const product = await getProductById(id);
+  const product = await getProduct(id);
   const previousImages = (await parent).openGraph?.images || [];
 
   const url = process.env.NEXTAUTH_URL;
@@ -57,7 +57,11 @@ export default async function Page({
   params: Promise<{ productId: string }>;
 }) {
   const productId = (await params).productId;
-  const product = await getProductById(productId);
+  const product = await getProduct(productId);
+
+  if (productId !== product?.id) {
+    notFound();
+  }
 
   return (
     <section className="relative">

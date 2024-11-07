@@ -1,6 +1,12 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
+import { Session } from "next-auth";
+import { NavBreadcrumb } from "./nav";
+import { SearchInput } from "./search";
+import { usePathname } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
@@ -14,7 +20,6 @@ import {
   IconCommand,
   IconCreditCard,
   IconFolder,
-  IconArrowForward,
   IconKeyframe,
   IconDeviceNintendo,
   IconLifebuoy,
@@ -26,8 +31,10 @@ import {
   IconSend,
   IconSettings,
   IconSparkles,
-  IconTerminal2,
-  IconTrash
+  IconTrash,
+  IconLayoutDashboard,
+  IconArrowForwardUp,
+  IconHome
 } from "@tabler/icons-react";
 import {
   Collapsible,
@@ -46,6 +53,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
+  SidebarRoot,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
@@ -63,25 +71,23 @@ import {
   SidebarRail,
   SidebarTrigger
 } from "@/components/ui/sidebar";
-import { Separator } from "@/components/ui/separator";
-import { SearchInput } from "./search";
-import { NavBreadcrumb } from "./nav";
-import { Session } from "next-auth";
 
-export function SidebarRoot({
+export function SidebarMain({
   children,
   products,
-  session,signOut
+  session,
+  signOut
 }: {
   children: React.ReactNode;
   session?: Session | null;
   products: { id: string; name: string }[] | null;
-  signOut?:()=>void
+  signOut?: () => void;
 }) {
-  const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
+  const [activeTeam, setActiveTeam] = React.useState(data(session).teams[0]);
+  const pathname = usePathname();
 
   return (
-    <>
+    <SidebarRoot>
       <Sidebar collapsible="icon" className="[&_form]:min-w-8">
         <SidebarHeader>
           <SidebarMenu className="min-w-8">
@@ -115,7 +121,7 @@ export function SidebarRoot({
                   <DropdownMenuLabel className="text-xs text-muted-foreground">
                     Teams
                   </DropdownMenuLabel>
-                  {data.teams.map((team, index) => (
+                  {data(session).teams.map((team, index) => (
                     <DropdownMenuItem
                       key={team.name}
                       onClick={() => setActiveTeam(team)}
@@ -150,61 +156,77 @@ export function SidebarRoot({
 
         <SidebarContent>
           <SidebarGroup>
+            <SidebarMenu className="z-[9] bg-sidebar">
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild tooltip="Home">
+                  <Link href="/">
+                    <IconHome />
+                    <span>Home</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
             <SidebarMenu>
-              {data.navMain.map((item) => (
-                <Collapsible
-                  key={item.title}
-                  asChild
-                  defaultOpen={item.isActive}
-                >
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuItem className="[&_button]:data-[state=open]:rotate-90">
-                      <SidebarMenuButton asChild tooltip={item.title}>
-                        <a href={item.url}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </a>
-                      </SidebarMenuButton>
-                      {item.items?.length ? (
-                        <>
-                          <SidebarMenuAction type="button">
-                            <IconChevronRight />
-                            <span className="sr-only">Toggle</span>
-                          </SidebarMenuAction>
+              {data(session).navMain.map((item) => {
+                const isActive =
+                  pathname === item.url ||
+                  item.url
+                    .split("/")
+                    .filter(Boolean)
+                    .includes(pathname.replace("/", ""));
+                return (
+                  <Collapsible key={item.title} asChild defaultOpen={isActive}>
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuItem className="[&_button>svg]:data-[state=open]:rotate-90">
+                        <SidebarMenuButton asChild tooltip={item.title}>
+                          <Link href={item.url}>
+                            <item.icon />
+                            <span>{item.title}</span>
+                          </Link>
+                        </SidebarMenuButton>
 
-                          <CollapsibleContent>
-                            <SidebarMenuSub>
-                              {item.items?.map((subItem) => (
-                                <SidebarMenuSubItem key={subItem.title}>
-                                  <SidebarMenuSubButton asChild>
-                                    <a href={subItem.url}>
-                                      <span>{subItem.title}</span>
-                                    </a>
-                                  </SidebarMenuSubButton>
-                                </SidebarMenuSubItem>
-                              ))}
-                            </SidebarMenuSub>
-                          </CollapsibleContent>
-                        </>
-                      ) : null}
-                    </SidebarMenuItem>
-                  </CollapsibleTrigger>
-                </Collapsible>
-              ))}
+                        {item.items?.length ? (
+                          <>
+                            <SidebarMenuAction type="button">
+                              <IconChevronRight className="transition-transform" />
+                              <span className="sr-only">Toggle</span>
+                            </SidebarMenuAction>
+
+                            <CollapsibleContent>
+                              <SidebarMenuSub>
+                                {item.items?.map((subItem) => (
+                                  <SidebarMenuSubItem key={subItem.title}>
+                                    <SidebarMenuSubButton asChild>
+                                      <Link href={subItem.url}>
+                                        <span>{subItem.title}</span>
+                                      </Link>
+                                    </SidebarMenuSubButton>
+                                  </SidebarMenuSubItem>
+                                ))}
+                              </SidebarMenuSub>
+                            </CollapsibleContent>
+                          </>
+                        ) : null}
+                      </SidebarMenuItem>
+                    </CollapsibleTrigger>
+                  </Collapsible>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroup>
 
           <SidebarGroup className="group-data-[collapsible=icon]:hidden">
             <SidebarGroupLabel>Projects</SidebarGroupLabel>
             <SidebarMenu>
-              {data.projects.map((item) => (
+              {data(session).projects.map((item) => (
                 <SidebarMenuItem key={item.name}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.name}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -213,8 +235,9 @@ export function SidebarRoot({
                         <span className="sr-only">More</span>
                       </SidebarMenuAction>
                     </DropdownMenuTrigger>
+
                     <DropdownMenuContent
-                      className="w-48 rounded-lg"
+                      className="w-48 rounded-lg [&_svg]:size-4 [&_svg]:mr-4"
                       side="bottom"
                       align="end"
                     >
@@ -223,7 +246,7 @@ export function SidebarRoot({
                         <span>View Project</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                        <IconArrowForward className="text-muted-foreground" />
+                        <IconArrowForwardUp className="text-muted-foreground" />
                         <span>Share Project</span>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
@@ -247,13 +270,13 @@ export function SidebarRoot({
           <SidebarGroup className="mt-auto">
             <SidebarGroupContent>
               <SidebarMenu>
-                {data.navSecondary.map((item) => (
+                {data(session).navSecondary.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild size="sm">
-                      <a href={item.url}>
+                      <Link href={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -298,7 +321,7 @@ export function SidebarRoot({
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg [&_svg]:size-5 [&_svg]:mr-4"
+                  className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg [&_svg]:size-4 [&_svg]:mr-4"
                   side="bottom"
                   align="end"
                   sideOffset={4}
@@ -337,12 +360,23 @@ export function SidebarRoot({
                       Upgrade to Pro
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
+
                   <DropdownMenuSeparator />
+
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                      <IconDiscountCheck />
-                      Account
+                    <DropdownMenuItem asChild>
+                      <Link href={`/${session?.user.id}/settings`}>
+                        <IconSettings />
+                        Settings
+                      </Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href={`/${session?.user.id}/settings`}>
+                        <IconDiscountCheck />
+                        Account
+                      </Link>
+                    </DropdownMenuItem>
+
                     <DropdownMenuItem>
                       <IconCreditCard />
                       Billing
@@ -352,11 +386,10 @@ export function SidebarRoot({
                       Notifications
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
+
                   <DropdownMenuSeparator />
 
-                  <DropdownMenuItem
-                    onClick={signOut}
-                  >
+                  <DropdownMenuItem onClick={signOut}>
                     <IconLogout />
                     Sign out
                   </DropdownMenuItem>
@@ -376,145 +409,151 @@ export function SidebarRoot({
             <NavBreadcrumb session={session} products={products} />
           </div>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</main>
+
+        {children}
       </SidebarInset>
-    </>
+    </SidebarRoot>
   );
 }
 
 // This is sample data.
-const data = {
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: IconDeviceNintendo,
-      plan: "Enterprise"
-    },
-    {
-      name: "Acme Corp.",
-      logo: IconWaveSine,
-      plan: "Startup"
-    },
-    {
-      name: "Evil Corp.",
-      logo: IconCommand,
-      plan: "Free"
-    }
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: IconTerminal2,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#"
-        },
-        {
-          title: "Starred",
-          url: "#"
-        },
-        {
-          title: "Settings",
-          url: "#"
-        }
-      ]
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: IconRobot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#"
-        },
-        {
-          title: "Explorer",
-          url: "#"
-        },
-        {
-          title: "Quantum",
-          url: "#"
-        }
-      ]
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: IconBook,
-      items: [
-        {
-          title: "Introduction",
-          url: "#"
-        },
-        {
-          title: "Get Started",
-          url: "#"
-        },
-        {
-          title: "Tutorials",
-          url: "#"
-        },
-        {
-          title: "Changelog",
-          url: "#"
-        }
-      ]
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-      items: [
-        {
-          title: "General",
-          url: "#"
-        },
-        {
-          title: "Team",
-          url: "#"
-        },
-        {
-          title: "Billing",
-          url: "#"
-        },
-        {
-          title: "Limits",
-          url: "#"
-        }
-      ]
-    }
-  ],
-  navSecondary: [
-    {
-      title: "Support",
-      url: "#",
-      icon: IconLifebuoy
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: IconSend
-    }
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: IconKeyframe
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: IconChartPie
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: IconMap
-    }
-  ]
+const data = (session: Session | null | undefined) => {
+  return {
+    teams: [
+      {
+        name: "Acme Inc",
+        logo: IconDeviceNintendo,
+        plan: "Enterprise"
+      },
+      {
+        name: "Acme Corp.",
+        logo: IconWaveSine,
+        plan: "Startup"
+      },
+      {
+        name: "Evil Corp.",
+        logo: IconCommand,
+        plan: "Free"
+      }
+    ],
+    navMain: [
+      {
+        title: "Dashboard",
+        url: `/dashboard/${session?.user.id}`,
+        icon: IconLayoutDashboard,
+        items: [
+          {
+            title: "History",
+            url: "#history"
+          },
+          {
+            title: "Analytics",
+            url: "#analytics"
+          },
+          {
+            title: "Products",
+            url: "#products"
+          },
+          {
+            title: "Settings",
+            url: "#settings"
+          }
+        ]
+      },
+      {
+        title: "Models",
+        url: "#",
+        icon: IconRobot,
+        items: [
+          {
+            title: "Genesis",
+            url: "#"
+          },
+          {
+            title: "Explorer",
+            url: "#"
+          },
+          {
+            title: "Quantum",
+            url: "#"
+          }
+        ]
+      },
+      {
+        title: "Documentation",
+        url: "#",
+        icon: IconBook,
+        items: [
+          {
+            title: "Introduction",
+            url: "#"
+          },
+          {
+            title: "Get Started",
+            url: "#"
+          },
+          {
+            title: "Tutorials",
+            url: "#"
+          },
+          {
+            title: "Changelog",
+            url: "#"
+          }
+        ]
+      },
+      {
+        title: "Settings",
+        url: "#",
+        icon: IconSettings,
+        items: [
+          {
+            title: "General",
+            url: "#"
+          },
+          {
+            title: "Team",
+            url: "#"
+          },
+          {
+            title: "Billing",
+            url: "#"
+          },
+          {
+            title: "Limits",
+            url: "#"
+          }
+        ]
+      }
+    ],
+    navSecondary: [
+      {
+        title: "Support",
+        url: "#",
+        icon: IconLifebuoy
+      },
+      {
+        title: "Feedback",
+        url: "#",
+        icon: IconSend
+      }
+    ],
+    projects: [
+      {
+        name: "Design Engineering",
+        url: "#",
+        icon: IconKeyframe
+      },
+      {
+        name: "Sales & Marketing",
+        url: "#",
+        icon: IconChartPie
+      },
+      {
+        name: "Travel",
+        url: "#",
+        icon: IconMap
+      }
+    ]
+  };
 };

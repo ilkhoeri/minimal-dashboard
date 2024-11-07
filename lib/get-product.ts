@@ -33,7 +33,8 @@ export async function getProducts(
 
   const totalProducts = await db.products.count({
     where: {
-      name: { contains: search, mode: "insensitive" }
+      name: { contains: search, mode: "insensitive" },
+      userId
     }
   });
 
@@ -44,7 +45,7 @@ export async function getProducts(
 }
 
 export async function getProduct(productId: string) {
-  const product = await db.products.findUnique({
+  const product = await db.products.findFirst({
     where: {
       id: productId
     },
@@ -65,17 +66,16 @@ export async function getProductById(
   productId: string
 ): Promise<(Products & { images?: Image[] }) | null> {
   const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/seed/products/${productId}`,
+    `${process.env.NEXTAUTH_URL}/api/client/products/${productId}`,
     { cache: "no-store" }
   );
   return await res.json();
 }
 
-export async function getNameProductById(): Promise<
+export async function getIdNameProducts(): Promise<
   { id: string; name: string }[] | null
 > {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/seed/products`, {
-    cache: "no-store"
+  return await db.products.findMany({
+    select: { id: true, name: true }
   });
-  return await res.json();
 }

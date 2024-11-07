@@ -31,23 +31,22 @@ export function Product({
         {product?.images[0]?.url ? (
           <Media
             alt="Product image"
-            className="aspect-square rounded-md object-cover"
+            className="rounded-md aspect-square object-cover"
             height="64"
             width="64"
             src={product?.images[0]?.url || ""}
           />
         ) : (
-          <span className="size-16 rounded-md bg-muted-foreground">
+          <span className="aspect-square flex items-center justify-center text-4xl font-bold size-16 rounded-md bg-muted">
             {product.name.slice(0, 2)}
           </span>
         )}
       </TableCell>
 
-      <TableCell
-        className="font-medium cursor-pointer"
-        // onClick={() => router.push()}
-      >
-        <Link href={`/products/${product.id}`}>{product.name}</Link>
+      <TableCell className="font-medium">
+        <Link href={`/products/${product.id}`} className="block size-full">
+          {product.name}
+        </Link>
       </TableCell>
 
       <TableCell>
@@ -88,6 +87,7 @@ export function Product({
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent align="end">
               <DropdownMenuLabel className="border-b">
                 Actions

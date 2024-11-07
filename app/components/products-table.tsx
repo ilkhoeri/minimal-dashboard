@@ -5,7 +5,6 @@ import { SelectProduct } from "@/types/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
-import { Session } from "@/types/auth";
 import {
   TableHead,
   TableRow,
@@ -22,18 +21,22 @@ import {
   CardTitle
 } from "@/components/ui/card";
 
+import type { Session } from "@/types/auth";
+
 export function ProductsTable({
   session,
   products,
   tabValue,
   totalProducts,
-  productsPerPage = 5
+  productsPerPage = 5,
+  refFiles
 }: Session & {
   products: SelectProduct[];
   tabValue: number | null;
   totalProducts: number;
   productsPerPage?: number;
   query?: string;
+  refFiles?: React.MutableRefObject<HTMLDivElement | null>;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -63,7 +66,7 @@ export function ProductsTable({
   }
 
   return (
-    <Card>
+    <Card ref={refFiles}>
       <CardHeader>
         <CardTitle>Products</CardTitle>
         <CardDescription>
@@ -103,7 +106,7 @@ export function ProductsTable({
                 0,
                 Math.min(Number(tabValue) - productsPerPage, totalProducts) + 1
               )}
-              -{tabValue}
+              -{tabValue || "0"}
             </strong>{" "}
             of <strong>{totalProducts}</strong> products
           </div>

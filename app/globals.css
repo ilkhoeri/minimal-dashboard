@@ -1,33 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  img {
+    display: initial;
+  }
+}
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer base {
-  :root {
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
 }
 
 @layer base {
@@ -61,7 +42,7 @@ body {
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent: 243 0% 86%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
@@ -111,14 +92,96 @@ body {
   }
 }
 
-input[type="datetime-local"]::-webkit-calendar-picker-indicator,
-input[type="datet"]::-webkit-calendar-picker-indicator {
-  --sz-icon: 26px;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+*,
+* *,
+* > *,
+* + *,
+html body * * *,
+img,
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  --webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+*,
+* *,
+* > *,
+* + *,
+html body *,
+html body * * *,
+img,
+button,
+a {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  -ms-appearance: none !important;
+  appearance: none !important;
+  --webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box !important;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+}
+body {
   position: relative;
+  min-height: 100dvh;
+  max-width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: hsl(var(--background));
+  color: hsl(var(--color));
+  margin: 0;
+  overflow: hidden auto;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+form {
+  position: relative;
+}
+s {
+  text-decoration: line-through;
+}
+img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+[id] {
+  scroll-margin: 4rem;
+}
+
+input[type="datetime-local"],
+input[type="date"] {
+  position: relative;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  --sz-icon: 22px;
+  right: 6px;
+  position: absolute;
   z-index: 9;
   width: var(--sz-icon);
   height: var(--sz-icon);
-  margin: 0 -4px 0 0;
   padding: 0;
   cursor: pointer;
 }

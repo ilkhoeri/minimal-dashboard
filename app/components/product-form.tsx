@@ -38,6 +38,10 @@ export function ProductForm({
 
   const [loading, setLoading] = useState(false);
 
+  if (session && data && session?.id !== data?.userId) {
+    return null;
+  }
+
   const title = data ? data.name : "Add product";
   const subtitle = data ? "Edit a product." : "Add a new product";
   const toastMessage = data ? "Product updated." : "Product added.";
@@ -73,15 +77,15 @@ export function ProductForm({
       setLoading(true);
       if (data) {
         await axios.patch(
-          `/api/seed/${params.userId}/products/${params.productId}`,
+          `/api/client/${params.dashboard}/products/${params.editId}`,
           values
         );
       } else {
-        await axios.post(`/api/seed/${params.userId}/products`, values);
+        await axios.post(`/api/client/${params.dashboard}/products`, values);
       }
 
       router.refresh();
-      router.push(`/${params.userId}/products`);
+      router.push(`/${params.dashboard}/products`);
     } catch (error) {
       alert(`Something went wrong. error.`);
     } finally {

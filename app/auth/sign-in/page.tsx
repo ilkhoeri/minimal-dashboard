@@ -37,9 +37,7 @@ function SignInGithub() {
       className="w-full"
       action={async () => {
         "use server";
-        await signIn("github", {
-          redirectTo: "/"
-        });
+        await signIn("github");
       }}
     >
       <Button type="submit" className="w-full">

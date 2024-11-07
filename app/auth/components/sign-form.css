@@ -315,6 +315,11 @@
   );
   scale: 0.99;
 }
+.submit[disabled] {
+  cursor: none;
+  pointer-events: none;
+  opacity: 0.75;
+}
 .form[data-hide="true"] ~ .avatar[data-hide="true"] svg.monkey_face .eye_r,
 .form[data-hide="true"] ~ .avatar[data-hide="true"] svg.monkey_face .eye_l {
   ry: 0.5;

@@ -56,17 +56,14 @@ export async function User() {
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="p-0">
-              <Link
-                href={`/${session?.user.id}/products`}
-                className="size-full px-2 py-1.5"
-              >
-                My Products
-              </Link>
+            <DropdownMenuItem asChild>
+              <Link href={`/${session?.user.id}/products`}>My Products</Link>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={`/${session.user.id}/settings`}>Settings</Link>
+            </DropdownMenuItem>
           </>
         )}
         <DropdownMenuItem>Support</DropdownMenuItem>

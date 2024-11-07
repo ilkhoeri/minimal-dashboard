@@ -56,7 +56,7 @@ export function useSignIn() {
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
       ? "Email already in use with different provider!"
-      : "LOGIN SUCCESS!";
+      : "LOGIN SUCCESS! wait redirect to home.";
 
   const [disabled, setDisabled] = React.useState<boolean>(false);
   const [transition, setTransition] = React.useTransition();

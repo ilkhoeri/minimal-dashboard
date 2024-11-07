@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import {
   IconHome,
+  IconLayoutDashboard,
   IconChartBar,
   IconPackage,
   IconLayoutSidebar,
@@ -157,9 +158,9 @@ export function DesktopNav({
             variant="outline"
             size="icon"
             onClick={() => setStretch(!stretch)}
-            className="mr-auto -ml-1"
+            className="mr-auto h-8 w-8"
           >
-            <IconLayoutSidebar className="size-6" />
+            <IconLayoutSidebar className="size-5" />
             <span className="sr-only hidden">aside-sizer</span>
           </Button>
 
@@ -170,6 +171,10 @@ export function DesktopNav({
             <VercelLogo className="size-3 transition-all group-hover:scale-110" />
             <span className="sr-only">Acme Inc</span>
           </Link>
+
+          <NavItem href="/" label="Home" stretch={stretch}>
+            <IconHome className="size-5 min-h-5 min-w-5" />
+          </NavItem>
 
           {session &&
             routeInSession(session?.user.id).map((i) => (
@@ -231,6 +236,14 @@ export function MobileNav({ session }: { session?: Session | null }) {
             <span className="sr-only">Acme Inc</span>
           </Link>
 
+          <Link
+            href="/"
+            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+          >
+            <IconHome className="size-5 min-h-5 min-w-5" />
+            Home
+          </Link>
+
           {session &&
             routeInSession(session?.user.id).map((i) => (
               <Link
@@ -263,7 +276,7 @@ const routeInSession = (userId: string | undefined) => [
   {
     label: "Dashboard",
     href: `/dashboard/${userId}`,
-    icon: IconHome
+    icon: IconLayoutDashboard
   },
   {
     label: "Products",

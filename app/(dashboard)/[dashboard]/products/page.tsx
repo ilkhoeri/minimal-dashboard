@@ -5,22 +5,28 @@ import { getProducts } from "@/lib/get-product";
 import { IconFileDownload, IconCirclePlus } from "@tabler/icons-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProductsTable } from "../../../components/products-table";
+import { redirect } from "next/navigation";
 
-export interface UserIdParams {
-  params: Promise<{ userId: string }>;
+export interface Params {
+  params: Promise<{ dashboard: string }>;
 }
 
 export default async function Page(
-  props: UserIdParams & {
+  props: Params & {
     searchParams: Promise<{ q: string; tab: string }>;
+    // searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
   }
 ) {
-  const userId = (await props.params).userId;
+  const userId = (await props.params).dashboard;
   const session = await currentUser();
   const searchParams = await props.searchParams;
   const search = searchParams.q || "";
   const tab = searchParams.tab || 0;
   const productsPerPage = 10;
+
+  if (userId !== session?.id) {
+    redirect("/dashboard");
+  }
   const { products, tabValue, totalProducts } = await getProducts(
     search,
     Number(tab),

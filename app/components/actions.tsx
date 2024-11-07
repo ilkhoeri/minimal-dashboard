@@ -44,7 +44,7 @@ export function DeleteProduct({
     try {
       setOnDisabled(true);
       console.log("load:", "deleting product");
-      await axios.delete(`/api/seed/${session.id}/products/${product.id}`);
+      await axios.delete(`/api/client/${session.id}/products/${product.id}`);
       router.refresh();
       router.push(`/${session.id}/products`);
     } catch (error) {

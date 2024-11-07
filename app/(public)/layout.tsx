@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { User } from "../components/user";
 import { SearchInput } from "../components/search";
 import { Analytics } from "@vercel/analytics/react";
-import { getNameProductById } from "@/lib/get-product";
+import { getIdNameProducts } from "@/lib/get-product";
 import { NavBreadcrumb, DesktopNav, MobileNav } from "../components/nav";
 
 export default async function DashboardLayout({
@@ -12,7 +12,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  const products = await getNameProductById();
+  const products = await getIdNameProducts();
 
   return (
     <Providers>
